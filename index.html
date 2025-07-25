@@ -59,18 +59,20 @@
                 <!-- Gestión de Usuarios -->
                 <div class="module-card" data-module="usuarios">
                     <div class="module-header">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-users-cog"></i>
                         <h3>Gestión de Usuarios</h3>
                     </div>
-                    <p>Registro y validación de clientes y técnicos SEC vía e-RNII</p>
+                    <p>Administración de usuarios por TI autorizado</p>
                     <button class="module-btn" onclick="toggleModule('usuarios')">Ver Detalles</button>
                     <div class="module-content hidden" id="usuarios-content">
                         <ul>
-                            <li>Autenticación con ClaveÚnica</li>
+                            <li>Panel de administración TI exclusivo</li>
+                            <li>Alta y baja de usuarios</li>
                             <li>Validación técnicos certificados TE1/TC6</li>
-                            <li>Perfiles diferenciados cliente/técnico</li>
+                            <li>Gestión de perfiles cliente/técnico</li>
                             <li>Integración con registro e-RNII SEC</li>
                         </ul>
+                        <button class="btn-docs" onclick="openAdminPanel()">Panel de Administración</button>
                     </div>
                 </div>
 
@@ -317,6 +319,200 @@
                 <input type="text" id="realTimeChatInput" placeholder="Escribe tu mensaje...">
                 <button onclick="sendRealTimeMessage()"><i class="fas fa-paper-plane"></i></button>
                 <button onclick="uploadImage()" class="file-btn"><i class="fas fa-image"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login Administrador -->
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-shield-alt"></i> Acceso Administrador TI</h2>
+            <p class="admin-warning">⚠️ Acceso restringido solo para personal autorizado</p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label>Usuario Administrador</label>
+                    <input type="text" id="adminUsername" placeholder="Usuario TI" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="adminPassword" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-lock"></i> Acceder al Panel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Panel de Administración -->
+    <div id="adminPanelModal" class="modal">
+        <div class="modal-content admin-panel-content">
+            <div class="admin-panel-header">
+                <h2><i class="fas fa-users-cog"></i> Panel de Administración TI</h2>
+                <div class="admin-info">
+                    <span>Admin: <strong id="currentAdminName">root</strong></span>
+                    <button onclick="logoutAdmin()" class="btn-secondary btn-sm">Cerrar Sesión</button>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="showAdminTab('users')">
+                    <i class="fas fa-users"></i> Gestión de Usuarios
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('settings')">
+                    <i class="fas fa-cog"></i> Configuración
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('reports')">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </button>
+            </div>
+
+            <!-- Tab Gestión de Usuarios -->
+            <div id="admin-users-tab" class="admin-tab-content active">
+                <div class="admin-actions">
+                    <button class="btn-primary" onclick="showAddUserForm()">
+                        <i class="fas fa-user-plus"></i> Agregar Usuario
+                    </button>
+                    <button class="btn-secondary" onclick="refreshUsersList()">
+                        <i class="fas fa-sync"></i> Actualizar Lista
+                    </button>
+                </div>
+
+                <!-- Formulario Agregar Usuario -->
+                <div id="addUserForm" class="hidden">
+                    <h3>Agregar Nuevo Usuario</h3>
+                    <form id="newUserForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>RUT</label>
+                                <input type="text" name="rut" placeholder="12.345.678-9" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Usuario</label>
+                                <select name="userType" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="cliente">Cliente</option>
+                                    <option value="tecnico">Técnico</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="certificacionGroup" style="display: none;">
+                                <label>Certificación</label>
+                                <select name="certificacion">
+                                    <option value="">Seleccione...</option>
+                                    <option value="TE1">TE1 - Técnico Electricista Clase 1</option>
+                                    <option value="TC6">TC6 - Técnico Constructor Clase 6</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" name="phone" placeholder="+56 9 XXXX XXXX">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Crear Usuario</button>
+                            <button type="button" onclick="hideAddUserForm()" class="btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Usuarios -->
+                <div class="users-table">
+                    <h3>Usuarios Registrados</h3>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>RUT</th>
+                                    <th>Tipo</th>
+                                    <th>Certificación</th>
+                                    <th>Estado</th>
+                                    <th>Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Configuración -->
+            <div id="admin-settings-tab" class="admin-tab-content">
+                <h3>Configuración del Sistema</h3>
+                
+                <div class="settings-section">
+                    <h4><i class="fas fa-key"></i> Cambiar Contraseña de Administrador</h4>
+                    <form id="changePasswordForm">
+                        <div class="form-group">
+                            <label>Contraseña Actual</label>
+                            <input type="password" id="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nueva Contraseña</label>
+                            <input type="password" id="newPassword" minlength="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmar Nueva Contraseña</label>
+                            <input type="password" id="confirmPassword" minlength="6" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Cambiar Contraseña</button>
+                    </form>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-database"></i> Configuración de Base de Datos</h4>
+                    <div class="db-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Usuarios:</span>
+                            <span class="stat-value" id="totalUsers">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Usuarios Activos:</span>
+                            <span class="stat-value" id="activeUsers">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Técnicos TE1:</span>
+                            <span class="stat-value" id="te1Users">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Técnicos TC6:</span>
+                            <span class="stat-value" id="tc6Users">0</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="exportUsersData()">
+                        <i class="fas fa-download"></i> Exportar Datos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Reportes -->
+            <div id="admin-reports-tab" class="admin-tab-content">
+                <h3>Reportes del Sistema</h3>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h4>Usuarios por Tipo</h4>
+                        <canvas id="userTypeChart" width="300" height="200"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h4>Registros por Mes</h4>
+                        <canvas id="registrationChart" width="300" height="200"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
