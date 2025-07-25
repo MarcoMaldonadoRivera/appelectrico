@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectriServ Chile - Servicios Eléctricos Domiciliarios SEC</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>ElectriServ Chile</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#normativas">Normativas SEC</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><button id="loginBtn" class="btn-primary">Iniciar Sesión</button></li>
+                </ul>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Servicios Eléctricos Domiciliarios Certificados SEC</h1>
+                <p>Instalaciones eléctricas profesionales cumpliendo normativas DS 8, RIC 1-19, TE1/TC6</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openCotizador()">Solicitar Cotización</button>
+                    <button class="btn-secondary" onclick="openChatbot()">Consultar Chatbot</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-home fa-10x"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulos del Sistema -->
+    <section id="servicios" class="modules-section">
+        <div class="container">
+            <h2>Módulos del Sistema</h2>
+            <div class="modules-grid">
+                
+                <!-- Gestión de Usuarios -->
+                <div class="module-card" data-module="usuarios">
+                    <div class="module-header">
+                        <i class="fas fa-users-cog"></i>
+                        <h3>Gestión de Usuarios</h3>
+                    </div>
+                    <p>Administración de usuarios por TI autorizado</p>
+                    <button class="module-btn" onclick="toggleModule('usuarios')">Ver Detalles</button>
+                    <div class="module-content hidden" id="usuarios-content">
+                        <ul>
+                            <li>Panel de administración TI exclusivo</li>
+                            <li>Alta y baja de usuarios</li>
+                            <li>Validación técnicos certificados TE1/TC6</li>
+                            <li>Gestión de perfiles cliente/técnico</li>
+                            <li>Integración con registro e-RNII SEC</li>
+                        </ul>
+                        <button class="btn-docs" onclick="openAdminPanel()">Panel de Administración</button>
+                    </div>
+                </div>
+
+                <!-- Chatbot -->
+                <div class="module-card" data-module="chatbot">
+                    <div class="module-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>Chatbot Inteligente</h3>
+                    </div>
+                    <p>Asistente virtual entrenado con normativas SEC</p>
+                    <button class="module-btn" onclick="toggleModule('chatbot')">Ver Detalles</button>
+                    <div class="module-content hidden" id="chatbot-content">
+                        <ul>
+                            <li>Consultas sobre requisitos de empalmes</li>
+                            <li>Información normativas DS 8, RIC 1-19</li>
+                            <li>Guía paso a paso para trámites SEC</li>
+                            <li>Powered by Rasa NLP</li>
+                        </ul>
+                        <button class="btn-chat" onclick="openChatbot()">Abrir Chat</button>
+                    </div>
+                </div>
+
+                <!-- Reconocimiento de Voz -->
+                <div class="module-card" data-module="voz">
+                    <div class="module-header">
+                        <i class="fas fa-microphone"></i>
+                        <h3>Reconocimiento de Voz</h3>
+                    </div>
+                    <p>Dictado de requerimientos en español chileno</p>
+                    <button class="module-btn" onclick="toggleModule('voz')">Ver Detalles</button>
+                    <div class="module-content hidden" id="voz-content">
+                        <ul>
+                            <li>Web Speech API optimizada</li>
+                            <li>Reconocimiento de términos técnicos</li>
+                            <li>Conversión voz a texto en formularios</li>
+                            <li>Compatible con dispositivos móviles</li>
+                        </ul>
+                        <button class="btn-voice" onclick="startVoiceRecognition()">
+                            <i class="fas fa-microphone"></i> Probar Voz
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Documentos -->
+                <div class="module-card" data-module="documentos">
+                    <div class="module-header">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Gestión de Documentos</h3>
+                    </div>
+                    <p>Generación automática de cotizaciones e informes</p>
+                    <button class="module-btn" onclick="toggleModule('documentos')">Ver Detalles</button>
+                    <div class="module-content hidden" id="documentos-content">
+                        <ul>
+                            <li>Cotizaciones automáticas en PDF</li>
+                            <li>Informes técnicos certificados</li>
+                            <li>Envío automático por email</li>
+                            <li>Almacenamiento seguro en MongoDB</li>
+                        </ul>
+                        <button class="btn-docs" onclick="openCotizador()">Generar Cotización</button>
+                    </div>
+                </div>
+
+                <!-- Chat en Tiempo Real -->
+                <div class="module-card" data-module="chat">
+                    <div class="module-header">
+                        <i class="fas fa-comments"></i>
+                        <h3>Chat en Tiempo Real</h3>
+                    </div>
+                    <p>Comunicación directa cliente-técnico</p>
+                    <button class="module-btn" onclick="toggleModule('chat')">Ver Detalles</button>
+                    <div class="module-content hidden" id="chat-content">
+                        <ul>
+                            <li>Mensajería instantánea</li>
+                            <li>Compartir imágenes de instalaciones</li>
+                            <li>Notificaciones en tiempo real</li>
+                            <li>Historial de conversaciones</li>
+                        </ul>
+                        <button class="btn-chat" onclick="openRealTimeChat()">Abrir Chat</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Normativas SEC -->
+    <section id="normativas" class="regulations-section">
+        <div class="container">
+            <h2>Cumplimiento Normativas SEC</h2>
+            <div class="regulations-grid">
+                <div class="regulation-card">
+                    <h3>DS 8 - Reglamento de Servicios Eléctricos</h3>
+                    <p>Cumplimiento total con el Decreto Supremo N°8 del Ministerio de Energía</p>
+                    <ul>
+                        <li>Requisitos técnicos de instalaciones</li>
+                        <li>Procedimientos de conexión</li>
+                        <li>Estándares de seguridad</li>
+                    </ul>
+                </div>
+                <div class="regulation-card">
+                    <h3>RIC 1-19 - Reglamento de Instalaciones de Corrientes</h3>
+                    <p>Adherencia completa al reglamento de instalaciones eléctricas</p>
+                    <ul>
+                        <li>Normas de cableado</li>
+                        <li>Protecciones eléctricas</li>
+                        <li>Puestas a tierra</li>
+                    </ul>
+                </div>
+                <div class="regulation-card">
+                    <h3>Certificaciones TE1/TC6</h3>
+                    <p>Validación de técnicos electricistas certificados</p>
+                    <ul>
+                        <li>Técnico Electricista Clase 1 (TE1)</li>
+                        <li>Técnico Constructor Clase 6 (TC6)</li>
+                        <li>Registro vigente en SEC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modales -->
+    
+    <!-- Modal Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <div class="login-options">
+                <button class="btn-clave-unica">
+                    <i class="fas fa-id-card"></i>
+                    Ingresar con ClaveÚnica
+                </button>
+                <button class="btn-firebase">
+                    <i class="fas fa-envelope"></i>
+                    Ingresar con Email
+                </button>
+            </div>
+            <form id="loginForm" class="hidden">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chatbot -->
+    <div id="chatbotModal" class="modal">
+        <div class="modal-content chatbot-content">
+            <div class="chatbot-header">
+                <h3><i class="fas fa-robot"></i> Asistente SEC</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="bot-message">
+                    <p>¡Hola! Soy tu asistente virtual especializado en normativas SEC. ¿En qué puedo ayudarte?</p>
+                    <div class="quick-buttons">
+                        <button onclick="sendQuickMessage('requisitos empalme')">Requisitos Empalme</button>
+                        <button onclick="sendQuickMessage('certificacion te1')">Certificación TE1</button>
+                        <button onclick="sendQuickMessage('normas ric')">Normas RIC</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu consulta...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                <button onclick="startVoiceInput()" class="voice-btn"><i class="fas fa-microphone"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cotizador -->
+    <div id="cotizadorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Generador de Cotizaciones</h2>
+            <form id="cotizacionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Tipo de Servicio</label>
+                        <select name="servicio" required>
+                            <option value="">Seleccione...</option>
+                            <option value="empalme-nuevo">Empalme Nuevo</option>
+                            <option value="ampliacion">Ampliación</option>
+                            <option value="reparacion">Reparación</option>
+                            <option value="mantención">Mantención</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Potencia Requerida (kW)</label>
+                        <input type="number" name="potencia" min="1" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <textarea name="direccion" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción Adicional</label>
+                        <textarea name="descripcion" rows="3" id="descripcionText"></textarea>
+                        <button type="button" class="voice-btn" onclick="startVoiceDescription()">
+                            <i class="fas fa-microphone"></i> Dictar
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Generar Cotización</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chat Tiempo Real -->
+    <div id="realTimeChatModal" class="modal">
+        <div class="modal-content chat-content">
+            <div class="chat-header">
+                <h3><i class="fas fa-comments"></i> Chat en Tiempo Real</h3>
+                <div class="chat-status">
+                    <span class="status-indicator online"></span>
+                    <span>Técnico disponible</span>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            <div class="chat-messages" id="realTimeMessages">
+                <div class="system-message">
+                    <p>Conectado con técnico certificado TE1. ¿En qué podemos ayudarte?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="realTimeChatInput" placeholder="Escribe tu mensaje...">
+                <button onclick="sendRealTimeMessage()"><i class="fas fa-paper-plane"></i></button>
+                <button onclick="uploadImage()" class="file-btn"><i class="fas fa-image"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login Administrador -->
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-shield-alt"></i> Acceso Administrador TI</h2>
+            <p class="admin-warning">⚠️ Acceso restringido solo para personal autorizado</p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label>Usuario Administrador</label>
+                    <input type="text" id="adminUsername" placeholder="Usuario TI" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="adminPassword" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-lock"></i> Acceder al Panel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Panel de Administración -->
+    <div id="adminPanelModal" class="modal">
+        <div class="modal-content admin-panel-content">
+            <div class="admin-panel-header">
+                <h2><i class="fas fa-users-cog"></i> Panel de Administración TI</h2>
+                <div class="admin-info">
+                    <span>Admin: <strong id="currentAdminName">root</strong></span>
+                    <button onclick="logoutAdmin()" class="btn-secondary btn-sm">Cerrar Sesión</button>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="showAdminTab('users')">
+                    <i class="fas fa-users"></i> Gestión de Usuarios
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('settings')">
+                    <i class="fas fa-cog"></i> Configuración
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('reports')">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </button>
+            </div>
+
+            <!-- Tab Gestión de Usuarios -->
+            <div id="admin-users-tab" class="admin-tab-content active">
+                <div class="admin-actions">
+                    <button class="btn-primary" onclick="showAddUserForm()">
+                        <i class="fas fa-user-plus"></i> Agregar Usuario
+                    </button>
+                    <button class="btn-secondary" onclick="refreshUsersList()">
+                        <i class="fas fa-sync"></i> Actualizar Lista
+                    </button>
+                </div>
+
+                <!-- Formulario Agregar Usuario -->
+                <div id="addUserForm" class="hidden">
+                    <h3>Agregar Nuevo Usuario</h3>
+                    <form id="newUserForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>RUT</label>
+                                <input type="text" name="rut" placeholder="12.345.678-9" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Usuario</label>
+                                <select name="userType" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="cliente">Cliente</option>
+                                    <option value="tecnico">Técnico</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="certificacionGroup" style="display: none;">
+                                <label>Certificación</label>
+                                <select name="certificacion">
+                                    <option value="">Seleccione...</option>
+                                    <option value="TE1">TE1 - Técnico Electricista Clase 1</option>
+                                    <option value="TC6">TC6 - Técnico Constructor Clase 6</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" name="phone" placeholder="+56 9 XXXX XXXX">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Crear Usuario</button>
+                            <button type="button" onclick="hideAddUserForm()" class="btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Usuarios -->
+                <div class="users-table">
+                    <h3>Usuarios Registrados</h3>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>RUT</th>
+                                    <th>Tipo</th>
+                                    <th>Certificación</th>
+                                    <th>Estado</th>
+                                    <th>Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Configuración -->
+            <div id="admin-settings-tab" class="admin-tab-content">
+                <h3>Configuración del Sistema</h3>
+                
+                <div class="settings-section">
+                    <h4><i class="fas fa-key"></i> Cambiar Contraseña de Administrador</h4>
+                    <form id="changePasswordForm">
+                        <div class="form-group">
+                            <label>Contraseña Actual</label>
+                            <input type="password" id="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nueva Contraseña</label>
+                            <input type="password" id="newPassword" minlength="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmar Nueva Contraseña</label>
+                            <input type="password" id="confirmPassword" minlength="6" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Cambiar Contraseña</button>
+                    </form>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-database"></i> Configuración de Base de Datos</h4>
+                    <div class="db-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Usuarios:</span>
+                            <span class="stat-value" id="totalUsers">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Usuarios Activos:</span>
+                            <span class="stat-value" id="activeUsers">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Técnicos TE1:</span>
+                            <span class="stat-value" id="te1Users">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Técnicos TC6:</span>
+                            <span class="stat-value" id="tc6Users">0</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="exportUsersData()">
+                        <i class="fas fa-download"></i> Exportar Datos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Reportes -->
+            <div id="admin-reports-tab" class="admin-tab-content">
+                <h3>Reportes del Sistema</h3>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h4>Usuarios por Tipo</h4>
+                        <canvas id="userTypeChart" width="300" height="200"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h4>Registros por Mes</h4>
+                        <canvas id="registrationChart" width="300" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ElectriServ Chile</h3>
+                    <p>Servicios eléctricos domiciliarios certificados SEC</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Empalmes Nuevos</a></li>
+                        <li><a href="#">Ampliaciones</a></li>
+                        <li><a href="#">Reparaciones</a></li>
+                        <li><a href="#">Mantenciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Normativas</h4>
+                    <ul>
+                        <li><a href="#">DS 8</a></li>
+                        <li><a href="#">RIC 1-19</a></li>
+                        <li><a href="#">TE1/TC6</a></li>
+                        <li><a href="#">e-RNII</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +56 2 2XXX XXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@electriserv.cl</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Santiago, Chile</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ElectriServ Chile. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="voice-recognition.js"></script>
+    <script src="firebase-config.js"></script>
+</body>
+</html>
