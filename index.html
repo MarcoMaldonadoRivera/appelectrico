@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectriServ Chile - Servicios Eléctricos Domiciliarios SEC</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>ElectriServ Chile</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#normativas">Normativas SEC</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><button id="loginBtn" class="btn-primary">Iniciar Sesión</button></li>
+                </ul>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Servicios Eléctricos Domiciliarios Certificados SEC</h1>
+                <p>Instalaciones eléctricas profesionales cumpliendo normativas DS 8, RIC 1-19, TE1/TC6</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openCotizador()">Solicitar Cotización</button>
+                    <button class="btn-secondary" onclick="openChatbot()">Consultar Chatbot</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-home fa-10x"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulos del Sistema -->
+    <section id="servicios" class="modules-section">
+        <div class="container">
+            <h2>Módulos del Sistema</h2>
+            <div class="modules-grid">
+                
+                <!-- Gestión de Usuarios -->
+                <div class="module-card" data-module="usuarios">
+                    <div class="module-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Gestión de Usuarios</h3>
+                    </div>
+                    <p>Registro y validación de clientes y técnicos SEC vía e-RNII</p>
+                    <button class="module-btn" onclick="toggleModule('usuarios')">Ver Detalles</button>
+                    <div class="module-content hidden" id="usuarios-content">
+                        <ul>
+                            <li>Autenticación con ClaveÚnica</li>
+                            <li>Validación técnicos certificados TE1/TC6</li>
+                            <li>Perfiles diferenciados cliente/técnico</li>
+                            <li>Integración con registro e-RNII SEC</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Chatbot -->
+                <div class="module-card" data-module="chatbot">
+                    <div class="module-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>Chatbot Inteligente</h3>
+                    </div>
+                    <p>Asistente virtual entrenado con normativas SEC</p>
+                    <button class="module-btn" onclick="toggleModule('chatbot')">Ver Detalles</button>
+                    <div class="module-content hidden" id="chatbot-content">
+                        <ul>
+                            <li>Consultas sobre requisitos de empalmes</li>
+                            <li>Información normativas DS 8, RIC 1-19</li>
+                            <li>Guía paso a paso para trámites SEC</li>
+                            <li>Powered by Rasa NLP</li>
+                        </ul>
+                        <button class="btn-chat" onclick="openChatbot()">Abrir Chat</button>
+                    </div>
+                </div>
+
+                <!-- Reconocimiento de Voz -->
+                <div class="module-card" data-module="voz">
+                    <div class="module-header">
+                        <i class="fas fa-microphone"></i>
+                        <h3>Reconocimiento de Voz</h3>
+                    </div>
+                    <p>Dictado de requerimientos en español chileno</p>
+                    <button class="module-btn" onclick="toggleModule('voz')">Ver Detalles</button>
+                    <div class="module-content hidden" id="voz-content">
+                        <ul>
+                            <li>Web Speech API optimizada</li>
+                            <li>Reconocimiento de términos técnicos</li>
+                            <li>Conversión voz a texto en formularios</li>
+                            <li>Compatible con dispositivos móviles</li>
+                        </ul>
+                        <button class="btn-voice" onclick="startVoiceRecognition()">
+                            <i class="fas fa-microphone"></i> Probar Voz
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Documentos -->
+                <div class="module-card" data-module="documentos">
+                    <div class="module-header">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Gestión de Documentos</h3>
+                    </div>
+                    <p>Generación automática de cotizaciones e informes</p>
+                    <button class="module-btn" onclick="toggleModule('documentos')">Ver Detalles</button>
+                    <div class="module-content hidden" id="documentos-content">
+                        <ul>
+                            <li>Cotizaciones automáticas en PDF</li>
+                            <li>Informes técnicos certificados</li>
+                            <li>Envío automático por email</li>
+                            <li>Almacenamiento seguro en MongoDB</li>
+                        </ul>
+                        <button class="btn-docs" onclick="openCotizador()">Generar Cotización</button>
+                    </div>
+                </div>
+
+                <!-- Chat en Tiempo Real -->
+                <div class="module-card" data-module="chat">
+                    <div class="module-header">
+                        <i class="fas fa-comments"></i>
+                        <h3>Chat en Tiempo Real</h3>
+                    </div>
+                    <p>Comunicación directa cliente-técnico</p>
+                    <button class="module-btn" onclick="toggleModule('chat')">Ver Detalles</button>
+                    <div class="module-content hidden" id="chat-content">
+                        <ul>
+                            <li>Mensajería instantánea</li>
+                            <li>Compartir imágenes de instalaciones</li>
+                            <li>Notificaciones en tiempo real</li>
+                            <li>Historial de conversaciones</li>
+                        </ul>
+                        <button class="btn-chat" onclick="openRealTimeChat()">Abrir Chat</button>
+                    </div>
+                </div>
+
+                <!-- IA Recomendaciones -->
+                <div class="module-card" data-module="ia">
+                    <div class="module-header">
+                        <i class="fas fa-brain"></i>
+                        <h3>IA Recomendaciones</h3>
+                    </div>
+                    <p>Sugerencias inteligentes con Hugging Face</p>
+                    <button class="module-btn" onclick="toggleModule('ia')">Ver Detalles</button>
+                    <div class="module-content hidden" id="ia-content">
+                        <ul>
+                            <li>Análisis predictivo de fallas</li>
+                            <li>Recomendaciones de mejoras</li>
+                            <li>Optimización de costos</li>
+                            <li>Modelos entrenados con datos SEC</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Normativas SEC -->
+    <section id="normativas" class="regulations-section">
+        <div class="container">
+            <h2>Cumplimiento Normativas SEC</h2>
+            <div class="regulations-grid">
+                <div class="regulation-card">
+                    <h3>DS 8 - Reglamento de Servicios Eléctricos</h3>
+                    <p>Cumplimiento total con el Decreto Supremo N°8 del Ministerio de Energía</p>
+                    <ul>
+                        <li>Requisitos técnicos de instalaciones</li>
+                        <li>Procedimientos de conexión</li>
+                        <li>Estándares de seguridad</li>
+                    </ul>
+                </div>
+                <div class="regulation-card">
+                    <h3>RIC 1-19 - Reglamento de Instalaciones de Corrientes</h3>
+                    <p>Adherencia completa al reglamento de instalaciones eléctricas</p>
+                    <ul>
+                        <li>Normas de cableado</li>
+                        <li>Protecciones eléctricas</li>
+                        <li>Puestas a tierra</li>
+                    </ul>
+                </div>
+                <div class="regulation-card">
+                    <h3>Certificaciones TE1/TC6</h3>
+                    <p>Validación de técnicos electricistas certificados</p>
+                    <ul>
+                        <li>Técnico Electricista Clase 1 (TE1)</li>
+                        <li>Técnico Constructor Clase 6 (TC6)</li>
+                        <li>Registro vigente en SEC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modales -->
+    
+    <!-- Modal Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <div class="login-options">
+                <button class="btn-clave-unica">
+                    <i class="fas fa-id-card"></i>
+                    Ingresar con ClaveÚnica
+                </button>
+                <button class="btn-firebase">
+                    <i class="fas fa-envelope"></i>
+                    Ingresar con Email
+                </button>
+            </div>
+            <form id="loginForm" class="hidden">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chatbot -->
+    <div id="chatbotModal" class="modal">
+        <div class="modal-content chatbot-content">
+            <div class="chatbot-header">
+                <h3><i class="fas fa-robot"></i> Asistente SEC</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="bot-message">
+                    <p>¡Hola! Soy tu asistente virtual especializado en normativas SEC. ¿En qué puedo ayudarte?</p>
+                    <div class="quick-buttons">
+                        <button onclick="sendQuickMessage('requisitos empalme')">Requisitos Empalme</button>
+                        <button onclick="sendQuickMessage('certificacion te1')">Certificación TE1</button>
+                        <button onclick="sendQuickMessage('normas ric')">Normas RIC</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu consulta...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                <button onclick="startVoiceInput()" class="voice-btn"><i class="fas fa-microphone"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cotizador -->
+    <div id="cotizadorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Generador de Cotizaciones</h2>
+            <form id="cotizacionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Tipo de Servicio</label>
+                        <select name="servicio" required>
+                            <option value="">Seleccione...</option>
+                            <option value="empalme-nuevo">Empalme Nuevo</option>
+                            <option value="ampliacion">Ampliación</option>
+                            <option value="reparacion">Reparación</option>
+                            <option value="mantención">Mantención</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Potencia Requerida (kW)</label>
+                        <input type="number" name="potencia" min="1" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <textarea name="direccion" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción Adicional</label>
+                        <textarea name="descripcion" rows="3" id="descripcionText"></textarea>
+                        <button type="button" class="voice-btn" onclick="startVoiceDescription()">
+                            <i class="fas fa-microphone"></i> Dictar
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Generar Cotización PDF</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chat Tiempo Real -->
+    <div id="realTimeChatModal" class="modal">
+        <div class="modal-content chat-content">
+            <div class="chat-header">
+                <h3><i class="fas fa-comments"></i> Chat en Tiempo Real</h3>
+                <div class="chat-status">
+                    <span class="status-indicator online"></span>
+                    <span>Técnico disponible</span>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            <div class="chat-messages" id="realTimeMessages">
+                <div class="system-message">
+                    <p>Conectado con técnico certificado TE1. ¿En qué podemos ayudarte?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="realTimeChatInput" placeholder="Escribe tu mensaje...">
+                <button onclick="sendRealTimeMessage()"><i class="fas fa-paper-plane"></i></button>
+                <button onclick="uploadImage()" class="file-btn"><i class="fas fa-image"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ElectriServ Chile</h3>
+                    <p>Servicios eléctricos domiciliarios certificados SEC</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Empalmes Nuevos</a></li>
+                        <li><a href="#">Ampliaciones</a></li>
+                        <li><a href="#">Reparaciones</a></li>
+                        <li><a href="#">Mantenciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Normativas</h4>
+                    <ul>
+                        <li><a href="#">DS 8</a></li>
+                        <li><a href="#">RIC 1-19</a></li>
+                        <li><a href="#">TE1/TC6</a></li>
+                        <li><a href="#">e-RNII</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +56 2 2XXX XXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@electriserv.cl</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Santiago, Chile</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ElectriServ Chile. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="voice-recognition.js"></script>
+    <script src="firebase-config.js"></script>
+</body>
+</html>

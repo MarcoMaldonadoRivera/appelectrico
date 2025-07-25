@@ -1,0 +1,125 @@
+{
+  "name": "electriserv-chile",
+  "version": "1.0.0",
+  "description": "Sistema full-stack para servicios eléctricos domiciliarios en Chile cumpliendo normativas SEC",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/index.js",
+    "client": "live-server --port=3000 --host=localhost",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "echo 'Building client files...'",
+    "build:server": "echo 'Building server files...'",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "deploy": "npm run build && npm run deploy:vercel",
+    "deploy:vercel": "vercel --prod",
+    "seed": "node server/scripts/seed.js"
+  },
+  "keywords": [
+    "servicios-electricos",
+    "sec",
+    "chile",
+    "normativas",
+    "te1",
+    "tc6",
+    "empalmes",
+    "instalaciones-electricas",
+    "chatbot",
+    "reconocimiento-voz"
+  ],
+  "author": "ElectriServ Chile Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^6.10.0",
+    "express-validator": "^7.0.1",
+    "nodemailer": "^6.9.4",
+    "pdfkit": "^0.13.0",
+    "multer": "^1.4.5-lts.1",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.7.2",
+    "axios": "^1.5.0",
+    "crypto": "^1.0.1",
+    "validator": "^13.11.0",
+    "moment": "^2.29.4",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.0",
+    "live-server": "^1.2.2",
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "@vercel/node": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electriserv-chile/sistema-sec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/electriserv-chile/sistema-sec/issues"
+  },
+  "homepage": "https://electriserv-chile.vercel.app",
+  "vercel": {
+    "version": 2,
+    "builds": [
+      {
+        "src": "server/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/server/index.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "testMatch": ["**/__tests__/**/*.js", "**/?(*.)+(spec|test).js"]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "browser": true,
+      "es2021": true,
+      "jest": true
+    },
+    "extends": ["eslint:recommended"],
+    "parserOptions": {
+      "ecmaVersion": 2021,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-console": "warn",
+      "no-unused-vars": "error",
+      "prefer-const": "error",
+      "no-var": "error"
+    }
+  }
+}
