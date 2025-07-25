@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Temperatura</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌡️ Consulta de Temperatura</h1>
+            <p>Obtén la temperatura actual de cualquier ciudad</p>
+        </header>
+
+        <main>
+            <div class="search-section">
+                <div class="input-group">
+                    <input type="text" id="cityInput" placeholder="Ingresa el nombre de la ciudad..." autocomplete="off">
+                    <button id="searchBtn">Buscar</button>
+                </div>
+                <button id="locationBtn" class="location-btn">📍 Usar mi ubicación</button>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Obteniendo datos del clima...</p>
+            </div>
+
+            <div id="weatherResult" class="weather-result hidden">
+                <div class="weather-card">
+                    <div class="weather-header">
+                        <h2 id="cityName"></h2>
+                        <p id="country"></p>
+                    </div>
+                    
+                    <div class="temperature-display">
+                        <div class="main-temp">
+                            <span id="temperature"></span>
+                            <span class="unit">°C</span>
+                        </div>
+                        <div class="feels-like">
+                            Sensación térmica: <span id="feelsLike"></span>°C
+                        </div>
+                    </div>
+
+                    <div class="weather-details">
+                        <div class="weather-icon">
+                            <img id="weatherIcon" src="" alt="Clima">
+                            <p id="description"></p>
+                        </div>
+                        
+                        <div class="additional-info">
+                            <div class="info-item">
+                                <span class="label">Humedad:</span>
+                                <span id="humidity"></span>%
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Presión:</span>
+                                <span id="pressure"></span> hPa
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Viento:</span>
+                                <span id="windSpeed"></span> km/h
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Visibilidad:</span>
+                                <span id="visibility"></span> km
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="temperature-range">
+                        <div class="temp-min">
+                            <span class="label">Mín:</span>
+                            <span id="tempMin"></span>°C
+                        </div>
+                        <div class="temp-max">
+                            <span class="label">Máx:</span>
+                            <span id="tempMax"></span>°C
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error-message hidden">
+                <h3>Error</h3>
+                <p id="errorText"></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Datos proporcionados por OpenWeatherMap</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
